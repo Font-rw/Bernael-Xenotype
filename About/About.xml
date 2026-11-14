@@ -24,6 +24,7 @@
 		<li>Ludeon.RimWorld.Royalty</li>
 		<li>Ludeon.RimWorld.Biotech</li>
 		<li>OskarPotocki.VanillaFactionsExpanded.Core</li>
+		<li>VanillaExpanded.VPsycastsE</li>
 		<li>Sov.Nephilim</li>
 	</loadAfter>
 </ModMetaData>
