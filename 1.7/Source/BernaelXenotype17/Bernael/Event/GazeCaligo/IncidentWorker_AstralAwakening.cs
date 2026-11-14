@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// Several pawns with high psychic sensitivity receive a psylink.
+    /// </summary>
     public class IncidentWorker_AstralAwakening : IncidentWorker
     {
         private static readonly List<string> tmpPawnNames = new List<string>();

@@ -3,6 +3,9 @@ using Verse;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// A powerful psycaster arrives at the settlement, drawn by the light of the Gaze, and offers to join.
+    /// </summary>
     public class IncidentWorker_PsycasterPilgrimage : IncidentWorker_WandererJoin
     {
         public override Pawn GeneratePawn(Map map)

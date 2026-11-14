@@ -16,14 +16,19 @@ namespace Bernael_Xenotype
     {
         public HediffCompProperties_ImmuneWithoutWeakDamage Props => (HediffCompProperties_ImmuneWithoutWeakDamage)props;
 
+        public override void CompPostPostAdd(DamageInfo? dinfo)
+        {
+            WorldComponent_ImmuneWithoutWeakDamage.Register(Pawn, this);
+        }
+
+        public override void CompPostPostRemoved()
+        {
+            WorldComponent_ImmuneWithoutWeakDamage.Unregister(Pawn, this);
+        }
+
         public virtual bool CheckPreApplyDamage(ref DamageInfo dinfo)
         {
-            if (Props.weakDamageDef != null && dinfo.Def != Props.weakDamageDef)
-            {
-                return true;
-            }
-
-            return false;
+            return Props.weakDamageDef != null && dinfo.Def != Props.weakDamageDef;
         }
     }
 }

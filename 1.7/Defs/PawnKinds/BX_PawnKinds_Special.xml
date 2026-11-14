@@ -4,7 +4,7 @@
     <defName>BX_Bernael_Warlock</defName>
     <label>bernael warlock</label>
     <race>Human</race>
-    <defaultFactionDef>Empire</defaultFactionDef>
+    <defaultFactionDef>AncientsHostile</defaultFactionDef>
     <factionHostileOnDeath>true</factionHostileOnDeath>
     <combatPower>50</combatPower>
     <minGenerationAge>20</minGenerationAge>
@@ -47,7 +47,7 @@
     <apparelColor>(114,12,12)</apparelColor>
     <ignoreIdeoApparelColors>true</ignoreIdeoApparelColors>
     <xenotypeSet>
-      <xenotypeChances>
+      <xenotypeChances Inherit="False">
         <BX_Bernael>1</BX_Bernael>
       </xenotypeChances>
     </xenotypeSet>

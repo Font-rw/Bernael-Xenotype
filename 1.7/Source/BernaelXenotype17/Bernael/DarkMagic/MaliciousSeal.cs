@@ -13,19 +13,11 @@ namespace Bernael_Xenotype
         public CompProperties_MaliciousSeal() { compClass = typeof(CompAbilityEffect_MaliciousSeal); }
     }
 
-    // Brands the targeted pawn. With psychic set on the props, Psycast already turns away targets without psychic
-    // sensitivity and shows each target's sensitivity while aiming.
+    // Brands the targeted pawn. With psychic set on the props,
+    // Psycast already turns away targets without psychic sensitivity and shows each target's sensitivity while aiming.
     public sealed class CompAbilityEffect_MaliciousSeal : CompAbilityEffect
     {
         public new CompProperties_MaliciousSeal Props => (CompProperties_MaliciousSeal)props;
-
-        public override bool Valid(LocalTargetInfo target, bool throwMessages = false)
-        {
-            Pawn pawn = target.Pawn;
-            return pawn != null && pawn != parent.pawn && MaliciousSealUtility.CanSeal(pawn) && base.Valid(target, throwMessages);
-        }
-
-        public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest) => Valid(target);
 
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
@@ -35,6 +27,14 @@ namespace Bernael_Xenotype
             MaliciousSealUtility.Brand(victim, parent.pawn, parent.pawn.Faction);
             FleckMaker.Static(victim.DrawPos, victim.Map, FleckDefOf.PsycastSkipFlashEntry, 1.4f);
             Props.brandSound?.PlayOneShot(new TargetInfo(victim.Position, victim.Map));
+        }
+
+        public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest) => Valid(target);
+
+        public override bool Valid(LocalTargetInfo target, bool throwMessages = false)
+        {
+            Pawn pawn = target.Pawn;
+            return pawn != null && pawn != parent.pawn && MaliciousSealUtility.CanSeal(pawn) && base.Valid(target, throwMessages);
         }
     }
 
@@ -47,14 +47,15 @@ namespace Bernael_Xenotype
         public float seed;
     }
 
-    // Draws the brand over each sealed pawn and the chains of a seal spreading from a corpse. Sealed pawns are found
-    // again from their hediff, so nothing here is saved. Shader resources are shared.
+    // Draws the brand over each sealed pawn and the chains of a seal spreading from a corpse.
+    // Sealed pawns are found again from their hediff, so nothing here is saved.
+    // Shader resources are shared.
     public sealed class MaliciousSealMapComponent : MapComponent
     {
-        // The spiked seal with its eye floats over a sealed pawn's head, clear of the pawn: its quad reaches the
-        // shader's Extent, 2.1 ring radii, so its ring's radius is 0.27 cells and its lowest spike ends 0.48 cells
-        // below its middle. It stamps down over StampTicks, landing at StampLanding of them, and fades out over the
-        // seal's last FadeTicks.
+        // The spiked seal with its eye floats over a sealed pawn's head,
+        // clear of the pawn: its quad reaches the shader's Extent, 2.1 ring radii,
+        // so its ring's radius is 0.27 cells and its lowest spike ends 0.48 cells below its middle.
+        // It stamps down over StampTicks, landing at StampLanding of them, and fades out over the seal's last FadeTicks.
         private const float BrandSize = 1.14f;
         private const float BrandHeight = 1.28f;
         private const int StampTicks = 24;

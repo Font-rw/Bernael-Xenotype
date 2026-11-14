@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <VanillaPsycastsExpanded.PsycasterPathDef>
+    <defName>BX_Hexes</defName>
+    <label>hexes</label>
+    <description>TODO.</description>
+    <background>UI/PathBG_Hexes</background>
+    <altBackground>UI/PathBG_Hexes</altBackground>
+    <tab>Psycasts</tab>
+    <tooltip>TODO.</tooltip>
+	  <requiredGene>BX_Hexmaster</requiredGene>
+	  <lockedReason>Hexmaster only</lockedReason>
+  </VanillaPsycastsExpanded.PsycasterPathDef>
+
+</Defs>

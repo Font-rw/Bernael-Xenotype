@@ -3,5 +3,6 @@
     <li>Common</li>
     <li>1.7</li>
     <li IfModActive="Sov.Nephilim">1.7/Nephilim</li>
+    <li IfModActive="VanillaExpanded.VPsycastsE">1.7/VPE</li>
   </v1.7>
 </loadFolders>

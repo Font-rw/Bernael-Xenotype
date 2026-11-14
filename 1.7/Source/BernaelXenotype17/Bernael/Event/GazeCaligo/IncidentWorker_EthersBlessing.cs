@@ -4,6 +4,9 @@ using Verse;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// All psycasters instantly gain a free Psylink level upgrade.
+    /// </summary>
     public class IncidentWorker_EthersBlessing : IncidentWorker
     {
         protected override bool TryExecuteWorker(IncidentParms parms)

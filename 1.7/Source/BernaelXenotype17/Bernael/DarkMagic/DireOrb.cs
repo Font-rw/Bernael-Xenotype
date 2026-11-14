@@ -138,9 +138,10 @@ namespace Bernael_Xenotype
 
     public sealed class DireOrbMapComponent : MapComponent
     {
-        // The orb bursts as it strikes (Mortis, 2026-11-09: no pause or turn before the explosion). The blast's damage
-        // and fire follow two ticks later, too soon to see, so a save made in between still restores the pending
-        // burst. The burst art fades into real, lasting cursed fire.
+        // The orb bursts as it strikes (Mortis, 2026-11-09: no pause or turn before the explosion).
+        // The blast's damage and fire follow two ticks later,
+        // too soon to see, so a save made in between still restores the pending burst.
+        // The burst art fades into real, lasting cursed fire.
         private const int DetonateTicks = 2;
         private const int LifetimeTicks = 102;
         private const int StaggerTicks = 95;

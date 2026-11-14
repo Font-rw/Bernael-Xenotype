@@ -7,7 +7,6 @@ namespace Bernael_Xenotype
     [HarmonyPatch(typeof(Pawn_PathFollower), "CostToMoveIntoCell", new[] { typeof(Pawn), typeof(IntVec3) })]
     public static class Patch_Pawn_PathFollower_CostToMoveIntoCell
     {
-        [HarmonyPostfix]
         public static void Postfix(Pawn pawn, IntVec3 c, ref float __result)
         {
             if (pawn == null) return;

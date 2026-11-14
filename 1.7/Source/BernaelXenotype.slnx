@@ -2,4 +2,5 @@
   <Project Path="BernaelXenotype17/BernaelXenotype17.csproj" />
   <Project Path="BernaelSoul/BernaelSoul.csproj" />
   <Project Path="BernaelVanquish/BernaelVanquish.csproj" />
+  <Project Path="VPE/VPE.csproj" />
 </Solution>

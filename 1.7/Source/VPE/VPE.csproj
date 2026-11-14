@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>BernaelXenotype.VPE</AssemblyName>
+    <RootNamespace>Bernael_Xenotype</RootNamespace>
+    <Authors>Leo39994</Authors>
+    <NuGetAudit>false</NuGetAudit>
+    <Deterministic>true</Deterministic>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <PathMap>$(MSBuildThisFileDirectory)=/_/</PathMap>
+    <OutputPath>..\..\VPE\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <SteamPath>$([MSBuild]::GetRegistryValue('HKEY_CURRENT_USER\Software\Valve\Steam', 'SteamPath'))</SteamPath>
+    <SteamPath Condition="'$(SteamPath)' == ''">C:\Program Files (x86)\Steam</SteamPath>
+    <SteamPath>$(SteamPath.Replace('/', '\'))\steamapps</SteamPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BernaelXenotype">
+      <HintPath>..\..\Assemblies\BernaelXenotype.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VEF">
+      <HintPath>$(SteamPath)\workshop\content\294100\2023507013\1.7\Assemblies\VEF.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Reference assemblies from NuGet, so the build needs no local RimWorld install (CI, any Steam library). -->
+  <ItemGroup>
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4995-unstable" />
+    <PackageReference Include="Lib.Harmony" Version="3.0.0-rc.4" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

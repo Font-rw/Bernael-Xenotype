@@ -12,6 +12,7 @@
     <workerClass>Bernael_Xenotype.IncidentWorker_MakeInitialBogeyman</workerClass>
     <gameCondition>BX_BogeymanInitial</gameCondition>
     <baseChance>0.4</baseChance>
+    <earliestDay>60</earliestDay> <!-- after 1 year -->
     <minRefireDays>60</minRefireDays>
     <canOccurOnAllPlanetLayers>true</canOccurOnAllPlanetLayers>
     <hidden>true</hidden>
@@ -27,7 +28,9 @@
     <workerClass>Bernael_Xenotype.IncidentWorker_Bogeyman</workerClass>
     <letterLabel>The bogeyman</letterLabel>
     <letterDef>ThreatBig</letterDef>
-    <letterText>TODO.</letterText>
+    <letterText>An intrusion has occurred within the settlement. A Bernael, accompanied by a pack of minor demons, has materialized directly inside the settlement and snatched a child.
+
+The kidnapper is now sprinting toward the edge of the map, backed by a diversionary raid. Intercept them before they escape, or the child's fate as a follower of Caligo will be sealed.</letterText>
     <baseChance>0</baseChance> <!-- Fired manually, never automatic -->
     <minRefireDays>60</minRefireDays>
     <canOccurOnAllPlanetLayers>true</canOccurOnAllPlanetLayers>

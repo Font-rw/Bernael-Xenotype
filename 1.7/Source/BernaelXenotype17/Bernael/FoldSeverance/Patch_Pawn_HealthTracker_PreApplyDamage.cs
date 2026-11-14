@@ -7,31 +7,20 @@ namespace Bernael_Xenotype
     [HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.PreApplyDamage))]
     public static class Patch_Pawn_HealthTracker_PreApplyDamage
     {
-        [HarmonyPrefix]
         public static bool Prefix(Pawn ___pawn, ref DamageInfo dinfo, out bool absorbed)
         {
             absorbed = false;
-            if (___pawn?.health?.hediffSet?.hediffs == null) return true;
+            if (!WorldComponent_ImmuneWithoutWeakDamage.TryGet(___pawn, out List<HediffComp_ImmuneWithoutWeakDamage> comps))
+                return true;
 
-            List<Hediff> hediffs = ___pawn.health.hediffSet.hediffs;
-            for (int i = 0; i < hediffs.Count; i++)
+            for (int i = 0; i < comps.Count; i++)
             {
-                if (hediffs[i] is HediffWithComps hediffWithComps && hediffWithComps.comps != null)
+                if (comps[i].CheckPreApplyDamage(ref dinfo))
                 {
-                    for (int j = 0; j < hediffWithComps.comps.Count; j++)
-                    {
-                        if (hediffWithComps.comps[j] is HediffComp_ImmuneWithoutWeakDamage immuneWithoutWeakDamage)
-                        {
-                            if (immuneWithoutWeakDamage.CheckPreApplyDamage(ref dinfo))
-                            {
-                                absorbed = true;
-                                return !absorbed;
-                            }
-                        }
-                    }
+                    absorbed = true;
+                    return false;
                 }
             }
-
             return true;
         }
     }

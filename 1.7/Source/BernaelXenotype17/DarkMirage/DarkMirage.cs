@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -30,6 +29,22 @@ namespace Bernael_Xenotype
     {
         private CompProperties_DarkMirage Settings => (CompProperties_DarkMirage)props;
 
+        public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
+        {
+            // Recheck after warmup; never let GenSpawn wipe a newly occupied cell.
+            if (!Valid(target, true)) return;
+            base.Apply(target, dest);
+            MirageUtility.Spawn(parent.pawn, target.Cell, Settings.mirageDef);
+        }
+
+        public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest) => Valid(target);
+
+        public override void DrawEffectPreview(LocalTargetInfo target)
+        {
+            if (target.Cell.InBounds(parent.pawn.Map))
+                GenDraw.DrawRadiusRing(target.Cell, Settings.mirageDef.GetModExtension<MirageSettings>().burstRadius);
+        }
+
         public override bool Valid(LocalTargetInfo target, bool throwMessages = false)
         {
             if (!MirageVisuals.ShaderReady(Settings.mirageDef))
@@ -42,22 +57,6 @@ namespace Bernael_Xenotype
             if (!valid && throwMessages)
                 Messages.Message("BX_MirageBlocked".Translate(), MessageTypeDefOf.RejectInput, false);
             return valid;
-        }
-
-        public override bool CanApplyOn(LocalTargetInfo target, LocalTargetInfo dest) => Valid(target);
-
-        public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
-        {
-            // Recheck after warmup; never let GenSpawn wipe a newly occupied cell.
-            if (!Valid(target, true)) return;
-            base.Apply(target, dest);
-            MirageUtility.Spawn(parent.pawn, target.Cell, Settings.mirageDef);
-        }
-
-        public override void DrawEffectPreview(LocalTargetInfo target)
-        {
-            if (target.Cell.InBounds(parent.pawn.Map))
-                GenDraw.DrawRadiusRing(target.Cell, Settings.mirageDef.GetModExtension<MirageSettings>().burstRadius);
         }
     }
 
@@ -100,8 +99,8 @@ namespace Bernael_Xenotype
         private Sustainer ambientSound;
         private bool endSoundPlayed;
         private const int FadeOutTicks = 36;
-        // Static buildings otherwise stretch TickInterval to 15 ticks, which would
-        // break PerTick sound maintenance and delay the visual/audio end transition.
+        // Static buildings otherwise stretch TickInterval to 15 ticks,
+        // which would break PerTick sound maintenance and delay the visual/audio end transition.
         protected override int MaxTickIntervalRate => 1;
         private MirageSettings Settings => def.GetModExtension<MirageSettings>();
         Thing IAttackTarget.Thing => this;

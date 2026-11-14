@@ -1,7 +1,8 @@
 ﻿using System;
-using RimWorld;
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
+
 namespace Bernael_Xenotype
 {
     public class CompAbilityEffect_SoulDrain : CompAbilityEffect
@@ -62,6 +63,15 @@ namespace Bernael_Xenotype
                 if (throwMessages)
                 {
                     Messages.Message("BX_MessageCannotUseOnSoulFeeder".Translate(parent.def.Named("ABILITY")), pawn, MessageTypeDefOf.RejectInput, false);
+                }
+                return false;
+            }
+            Hediff soulDrainedHediff = pawn.health.hediffSet.GetFirstHediffOfDef(BernaelDefOf.BX_SoulDrained);
+            if (soulDrainedHediff != null && soulDrainedHediff.Severity > 0.99f)
+            {
+                if (throwMessages)
+                {
+                    Messages.Message("BX_MessageCannotUseOnMaxSoulDrained".Translate(parent.def.Named("ABILITY")), pawn, MessageTypeDefOf.RejectInput, false);
                 }
                 return false;
             }

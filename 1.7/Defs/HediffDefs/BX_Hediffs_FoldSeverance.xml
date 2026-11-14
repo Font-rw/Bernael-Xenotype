@@ -4,7 +4,9 @@
   <HediffDef>
     <defName>BX_FoldShift_Hediff</defName>
     <label>fold shift</label>
-    <description>TODO.</description>
+    <description>While shifted, the user moves very slowly, cannot attack or use standard psycasts, ignores terrain movement penalties, and becomes completely immune to physical damage.
+
+Unlocks Traverse the Fold for the duration of the shift.</description>
     <hediffClass>HediffWithComps</hediffClass>
     <isBad>false</isBad>
     <tendable>false</tendable>
@@ -44,8 +46,8 @@
 
   <HediffDef>
     <defName>BX_TraverseTheFold_Hediff</defName>
-    <label>traverse the fold</label>
-    <description>TODO.</description>
+    <label>traverse the fold</label> <!-- hidden -->
+    <description>Traverse the fold.</description>
     <hediffClass>HediffWithComps</hediffClass>
     <isBad>false</isBad>
     <tendable>false</tendable>

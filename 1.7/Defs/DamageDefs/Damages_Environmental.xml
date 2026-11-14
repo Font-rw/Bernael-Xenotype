@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+
   <!-- Psychic concussion from a Dire Orb burst; wounds like blunt force without blunt's extra stun. -->
   <DamageDef>
     <defName>BX_DireBlast</defName>
@@ -29,12 +30,21 @@
     <makesBlood>false</makesBlood>
     <canInterruptJobs>false</canInterruptJobs>
     <deathMessage>{0} has been consumed by cursed flame.</deathMessage>
-    <hediff>Burn</hediff>
+    <hediff>Frostbite</hediff>
     <armorCategory>Heat</armorCategory>
     <minDamageToFragment>15</minDamageToFragment>
     <defaultDamage>10</defaultDamage>
     <defaultArmorPenetration>0</defaultArmorPenetration>
     <combatLogRules>Damage_Flame</combatLogRules>
+    <harmAllLayersUntilOutside>true</harmAllLayersUntilOutside>
     <canUseDeflectMetalEffect>false</canUseDeflectMetalEffect>
+    <additionalHediffs>
+      <li>
+        <hediff>Hypothermia</hediff>
+        <severityPerDamageDealt>0.01</severityPerDamageDealt>
+        <victimSeverityScalingByInvBodySize>true</victimSeverityScalingByInvBodySize>
+      </li>
+    </additionalHediffs>
   </DamageDef>
+
 </Defs>

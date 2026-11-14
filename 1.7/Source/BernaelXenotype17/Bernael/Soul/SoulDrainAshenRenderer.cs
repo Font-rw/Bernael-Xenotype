@@ -9,7 +9,7 @@ namespace Bernael_Xenotype
     // Swap only this draw's materials, after parallel preparation has finished.
     // This includes hair, clothes and headgear and also works in the pawn atlas/portraits.
     [HarmonyPatch(typeof(PawnRenderTree), nameof(PawnRenderTree.Draw))]
-    public static class SoulDrainAshenRenderer
+    public static class Patch_PawnRenderTree_Draw
     {
         private static readonly Stack<List<Material>> restorePool = new Stack<List<Material>>();
 
@@ -17,19 +17,43 @@ namespace Bernael_Xenotype
             out List<Material> __state)
         {
             __state = null;
-            if (parms.pawn?.health?.hediffSet == null || parms.flags.FlagSet(PawnRenderFlags.Invisible)) return;
+            if (parms.pawn?.health?.hediffSet == null || parms.flags.FlagSet(PawnRenderFlags.Invisible))
+                return;
+
             Hediff_SoulDrainPallor pallor = null;
             foreach (Hediff hediff in parms.pawn.health.hediffSet.hediffs)
-                if (hediff is Hediff_SoulDrainPallor found) { pallor = found; break; }
+            {
+                if (hediff is Hediff_SoulDrainPallor found)
+                {
+                    pallor = found;
+                    break;
+                }
+            }
+
             SoulDrainAshenMaterials materials = pallor?.Materials;
-            float amount = pallor == null ? 0f : 1f;
+            float amount = 0f;
+            if (pallor != null)
+            {
+                float normalizedSeverity = pallor.Severity / 0.9f;
+                amount = Mathf.Min(1f, Mathf.Lerp(0.5f, 1f, normalizedSeverity));
+            }
+
             var component = parms.pawn.Map?.GetComponent<SoulDrainMapComponent>();
-            if (component != null && component.TryGetPallor(parms.pawn, out var activeMaterials, out float activeAmount)
-                && activeAmount > amount)
-            { materials = activeMaterials; amount = activeAmount; }
-            if (materials == null || amount <= 0.001f || !SoulDrainMapComponent.EnsureMaterial()) return;
+            if (component != null && 
+                component.TryGetPallor(parms.pawn, out var activeMaterials, out float activeAmount) && 
+                activeAmount > amount)
+            {
+                materials = activeMaterials;
+                amount = activeAmount;
+            }
+            if (materials == null || amount <= 0.001f || !SoulDrainMapComponent.EnsureMaterial())
+                return;
+
             List<Material> originals = restorePool.Count > 0 ? restorePool.Pop() : new List<Material>(16);
-            foreach (PawnGraphicDrawRequest request in ___drawRequests) originals.Add(request.material);
+            foreach (PawnGraphicDrawRequest request in ___drawRequests)
+            {
+                originals.Add(request.material);
+            }
             __state = originals;
             for (int i = 0; i < ___drawRequests.Count; i++)
             {
