@@ -33,7 +33,9 @@ jobs:
 
     - name: Build solution
       run: |
-        dotnet build ./1.7/Source/BernaelXenotype.slnx -c Release
+        dotnet build ./1.7/Source/BernaelXenotype17/BernaelXenotype17.csproj -c Release
+        dotnet build ./1.7/Source/BernaelSoul/BernaelSoul.csproj -c Release
+        dotnet build ./1.7/Source/BernaelVanquish/BernaelVanquish.csproj -c Release
 
     - name: Upload assembly
       uses: actions/upload-artifact@v4
@@ -43,7 +45,6 @@ jobs:
           ./1.7/Assemblies/BernaelSoul.dll
           ./1.7/Assemblies/BernaelVanquish.dll
           ./1.7/Assemblies/BernaelXenotype.dll
-          ./1.7/VPE/Assemblies/BernaelXenotype.VPE.dll
 
     - name: Commit rebuilt assembly
       if: |
@@ -58,8 +59,7 @@ jobs:
 
         git add -- ./1.7/Assemblies/BernaelSoul.dll \
           ./1.7/Assemblies/BernaelVanquish.dll \
-          ./1.7/Assemblies/BernaelXenotype.dll \
-          ./1.7/VPE/Assemblies/BernaelXenotype.VPE.dll
+          ./1.7/Assemblies/BernaelXenotype.dll
 
         if git diff --cached --quiet; then
           echo "Assembly unchanged, nothing to commit."
@@ -91,7 +91,6 @@ jobs:
             '1.7/Assemblies/BernaelSoul.dll',
             '1.7/Assemblies/BernaelVanquish.dll',
             '1.7/Assemblies/BernaelXenotype.dll',
-            '1.7/VPE/Assemblies/BernaelXenotype.VPE.dll',
         )
         patterns = required + (
             'About/*.png',
@@ -106,6 +105,7 @@ jobs:
             '1.7/Shaders/*.glsl',
             '1.7/Textures/*.png',
             '1.7/VPE/*.xml',
+            '1.7/VPE/Assemblies/BernaelXenotype.VPE.dll',
         )
         tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
         selected = [name for name in tracked if any(fnmatch.fnmatchcase(name, pattern) for pattern in patterns)]
