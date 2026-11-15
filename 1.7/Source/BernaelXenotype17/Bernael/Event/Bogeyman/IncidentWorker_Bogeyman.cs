@@ -6,6 +6,11 @@ using Verse.Sound;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// A few hours before the attack, a baby or child gets a thought that someone unfamiliar is nearby,
+    /// which applies a mood debuff.<br/>
+    /// If the player notices this and starts protecting/hiding the child, the Bernael will attack earlier than scheduled.
+    /// </summary>
     public class IncidentWorker_MakeInitialBogeyman : IncidentWorker_MakeGameCondition
     {
         protected override bool CanFireNowSub(IncidentParms parms)
@@ -28,6 +33,15 @@ namespace Bernael_Xenotype
         }
     }
 
+    /// <summary>
+    /// Right in the room with the child, accompanied by landing particles and smoke (Wing-Burst),
+    /// a Bernael appears alongside a few weak demons.<br/>
+    /// The Bernael stashes the child in its inventory.<br/>
+    /// The Bernael makes a mad dash for the edge of the map, utilizing its abilities and the Fold Shift gene.<br/>
+    /// Its goal is to successfully escape, so it will use all available means to achieve this.<br/>
+    /// To create a distraction, a raid could spawn to draw away defenses.<br/>
+    /// If the Bernael manages to escape, the child could later reappear as an adult raider who has become a Bernael of the Cult of Caligo.
+    /// </summary>
     public class IncidentWorker_Bogeyman : IncidentWorker
     {
         private const float SmokeRadius = 3.5f;
@@ -52,7 +66,25 @@ namespace Bernael_Xenotype
             FleckMaker.Static(spawnCell, map, FleckDefOf.PsycastSkipInnerExit);
             FleckMaker.Static(spawnCell, map, FleckDefOf.PsycastSkipOuterRingExit);
             SoundDefOf.Psycast_Skip_Exit.PlayOneShot(new TargetInfo(spawnCell, map));
-            GenExplosion.DoExplosion(spawnCell, map, SmokeRadius, DamageDefOf.Extinguish, null, -1, -1f, null, null, null, null, BernaelDefOf.BX_WingBurstSmoke, 1, 1, GasType.BlindSmoke);
+            // The dark landing cloud replaces the explosion's own cell flashes; damage, gas and smoke are unchanged.
+            GenExplosion.DoExplosion(
+                center: spawnCell,
+                map: map,
+                radius: SmokeRadius,
+                damType: DamageDefOf.Smoke,
+                instigator: bogeyman,
+                damAmount: 0,
+                armorPenetration: -1f,
+                explosionSound: null,
+                weapon: null,
+                projectile: null,
+                intendedTarget: null,
+                postExplosionSpawnThingDef: BernaelDefOf.BX_WingBurstSmoke,
+                postExplosionSpawnChance: 1f,
+                postExplosionSpawnThingCount: 1,
+                postExplosionGasType: GasType.BlindSmoke,
+                doVisualEffects: false
+            );
 
             LordMaker.MakeNewLord(faction, new LordJob_Bogeyman(), map, new[] { bogeyman });
 

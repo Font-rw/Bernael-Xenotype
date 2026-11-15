@@ -4,6 +4,9 @@ using Verse;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// Settlement psycasters suffer severe neural shock, temporarily disabling their ability to cast psycasts.
+    /// </summary>
     public class IncidentWorker_PsychicBurnout : IncidentWorker
     {
         protected override bool TryExecuteWorker(IncidentParms parms)

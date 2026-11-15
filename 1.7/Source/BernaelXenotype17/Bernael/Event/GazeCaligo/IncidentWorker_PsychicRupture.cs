@@ -4,6 +4,9 @@ using Verse;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// A massive psychic wave triggers mental breaks across non-psychic colonists.
+    /// </summary>
     public class IncidentWorker_PsychicRupture : IncidentWorker
     {
         protected override bool TryExecuteWorker(IncidentParms parms)

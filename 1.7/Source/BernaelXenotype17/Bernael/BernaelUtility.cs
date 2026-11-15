@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using HarmonyLib;
 using RimWorld;
 using Verse;
+using HarmonyLib;
 
 namespace Bernael_Xenotype
 {
     public static class BernaelUtility
     {
-
         private static HediffDef _soulDrainedHediff;
         private static Game cachedPsychicSightGame;
         private static Gamecomponent_PsychicSight cachedPsychicSightComp;
@@ -39,7 +37,7 @@ namespace Bernael_Xenotype
         }
 
 
-    public static void TurnIntoXenotype(this Pawn pawn, XenotypeDef xenotypeDef)
+        public static void TurnIntoXenotype(this Pawn pawn, XenotypeDef xenotypeDef)
         {
             for (int i = pawn.genes.GenesListForReading.Count - 1; i >= 0; i--)
             {

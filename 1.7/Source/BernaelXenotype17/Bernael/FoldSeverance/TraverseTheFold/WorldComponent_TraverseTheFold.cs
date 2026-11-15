@@ -14,9 +14,7 @@ namespace Bernael_Xenotype
 
         private static readonly HashSet<Pawn> activePawns = new();
 
-        public WorldComponent_TraverseTheFold(World world) : base(world)
-        {
-        }
+        public WorldComponent_TraverseTheFold(World world) : base(world) { }
 
         public override void WorldComponentTick()
         {

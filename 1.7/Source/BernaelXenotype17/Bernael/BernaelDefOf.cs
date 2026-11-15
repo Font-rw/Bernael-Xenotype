@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.AI;
 
@@ -60,6 +55,8 @@ namespace Bernael_Xenotype
         public static ThingDef BX_WingBurstFlyer;
         public static ThingDef BX_BottledSoul;
         public static ThingDef BX_LifeVanquisher;
+
+        public static PrisonerInteractionModeDef BX_SoulExecution;
         public static RecipeDef BX_ExtractSoul;
 
         public static JobDef BX_PrisonerSoulFeed;

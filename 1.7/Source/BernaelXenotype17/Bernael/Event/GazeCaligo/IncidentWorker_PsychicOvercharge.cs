@@ -4,6 +4,9 @@ using Verse;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// All psycasters receive a long-lasting buff that boosts their psychic capabilities even after the Gaze passes.
+    /// </summary>
     public class IncidentWorker_PsychicOvercharge : IncidentWorker
     {
         protected override bool TryExecuteWorker(IncidentParms parms)

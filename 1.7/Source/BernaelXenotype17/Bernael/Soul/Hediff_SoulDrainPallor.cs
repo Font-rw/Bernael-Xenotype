@@ -10,6 +10,19 @@ namespace Bernael_Xenotype
 
         public void ReleaseMaterials() => Materials.Dispose();
 
+        public override float Severity
+        {
+            get => base.Severity;
+            set
+            {
+                if (!Mathf.Approximately(base.Severity, value))
+                {
+                    base.Severity = value;
+                    pawn?.Drawer?.renderer?.SetAllGraphicsDirty();
+                }
+            }
+        }
+
         public override void PostAdd(DamageInfo? dinfo)
         {
             base.PostAdd(dinfo);

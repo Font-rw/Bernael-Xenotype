@@ -26,7 +26,6 @@
 				<canTargetSelf>false</canTargetSelf>
 				<canTargetBuildings>false</canTargetBuildings>
 				<canTargetMechs>false</canTargetMechs>
-				<canTargetBloodfeeders>false</canTargetBloodfeeders>
 			</targetParams>
 		</verbProperties>
 		<comps>

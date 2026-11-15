@@ -180,7 +180,7 @@
 		<defName>BX_WitheredSoul</defName>
 		<label>Withered Soul</label>
 		<labelShortAdj>withered</labelShortAdj>
-		<description>Carriers of this gene experience worsening pain as their mood falls, but pain itself does not reduce their mood.</description>
+		<description>Carriers of this gene experience worsening pain when their mood falls below 50%, though pain itself does not reduce their mood.</description>
 		<biostatCpx>1</biostatCpx>
 		<biostatMet>4</biostatMet>
 		<displayOrderInCategory>63</displayOrderInCategory>

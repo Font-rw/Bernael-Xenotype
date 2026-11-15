@@ -8,6 +8,14 @@ using UnityEngine;
 
 namespace Bernael_Xenotype
 {
+    /// <summary>
+    /// Represents the "Gaze of Caligo" weather/sky condition event, featuring an atmospheric overlay, 
+    /// a roaming giant pupil in the sky, periodic blinking mechanics, and psychic-dependent pawn hediffs.<br/>
+    /// Before ending, the pupil returns to map center and performs a long blink.<br/>
+    /// During this blink, colonist Psylink count and levels determine the resonance outcome (<see cref="CalculateResonance"/>),
+    /// shifting the eye color to blue (High Resonance) or red (Low Resonance).<br/>
+    /// Upon conclusion, triggers a corresponding reward or penalty incident,clears condition hediffs, and stops ambient audio.<br/>
+    /// </summary>
     [StaticConstructorOnStartup]
     public class GameCondition_GazeCaligo : GameCondition
     {

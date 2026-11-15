@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <PrisonerInteractionModeDef>
+        <defName>BX_LifeDrain</defName>
+        <label>life drain</label>
+        <listOrder>27</listOrder>
+        <description>When a soul eater's soul saturation is low, they may drain this prisoner. Other prisoners who are soul eaters can also feed on this prisoner, if they are in the same cell.</description>
+        <mustBeAwake>false</mustBeAwake>
+        <isNonExclusiveInteraction>true</isNonExclusiveInteraction>
+        <modExtensions>
+            <li Class="Bernael_Xenotype.PrisonerInteractionModeExtension">
+                <hideIfNoSoulfeeders>true</hideIfNoSoulfeeders>
+            </li>
+        </modExtensions>
+    </PrisonerInteractionModeDef>
+
+    <PrisonerInteractionModeDef>
+        <defName>BX_SoulExecution</defName>
+        <label>soul execution</label>
+        <listOrder>28</listOrder>
+        <description>Repeatedly extract soul fragments from this prisoner as a form of execution. Surgery will be automatically queued and performed by a doctor whenever possible.</description>
+        <mustBeAwake>false</mustBeAwake>
+        <isNonExclusiveInteraction>true</isNonExclusiveInteraction>
+        <modExtensions>
+            <li Class="Bernael_Xenotype.PrisonerInteractionModeExtension">
+                <autoSurgeryRecipe>BX_ExtractSoul</autoSurgeryRecipe>
+            </li>
+        </modExtensions>
+    </PrisonerInteractionModeDef>
+
+</Defs>

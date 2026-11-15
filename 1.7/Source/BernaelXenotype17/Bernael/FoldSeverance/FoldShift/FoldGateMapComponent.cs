@@ -108,8 +108,8 @@ namespace Bernael_Xenotype
     [StaticConstructorOnStartup]
     public static class FoldGateVisuals
     {
-        // The rift's quad: Length along the wall face, Depth from inside the wall out over the floor. The face sits
-        // at 0.3 of the depth (BX_FoldGate.frag.glsl Face).
+        // The rift's quad: Length along the wall face, Depth from inside the wall out over the floor.
+        // The face sits at 0.3 of the depth (BX_FoldGate.frag.glsl Face).
         private const float Length = 2.5f;
         private const float Depth = 1.5f;
         private const float Face = 0.3f;

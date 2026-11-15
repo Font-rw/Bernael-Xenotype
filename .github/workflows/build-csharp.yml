@@ -33,7 +33,9 @@ jobs:
 
     - name: Build solution
       run: |
-        dotnet build ./1.7/Source/BernaelXenotype.slnx -c Release
+        dotnet build ./1.7/Source/BernaelXenotype17/BernaelXenotype17.csproj -c Release
+        dotnet build ./1.7/Source/BernaelSoul/BernaelSoul.csproj -c Release
+        dotnet build ./1.7/Source/BernaelVanquish/BernaelVanquish.csproj -c Release
 
     - name: Upload assembly
       uses: actions/upload-artifact@v4
@@ -102,6 +104,8 @@ jobs:
             '1.7/Patches/*.xml',
             '1.7/Shaders/*.glsl',
             '1.7/Textures/*.png',
+            '1.7/VPE/*.xml',
+            '1.7/VPE/Assemblies/BernaelXenotype.VPE.dll',
         )
         tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
         selected = [name for name in tracked if any(fnmatch.fnmatchcase(name, pattern) for pattern in patterns)]

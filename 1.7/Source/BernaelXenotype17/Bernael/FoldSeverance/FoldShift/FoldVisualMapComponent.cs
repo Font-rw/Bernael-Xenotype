@@ -30,8 +30,8 @@ namespace Bernael_Xenotype
         public void EndShift(Pawn pawn, FoldShiftVisuals visuals)
         {
             active.Remove(pawn);
-            // A shadow that was never drawn has nothing to burn away. Capturing one now would pop a fresh shadow
-            // over the pawn the game is already drawing again.
+            // A shadow that was never drawn has nothing to burn away.
+            // Capturing one now would pop a fresh shadow over the pawn the game is already drawing again.
             if (visuals == null) return;
             CancelExit(pawn);
             exits.Add(new FoldExit { pawn = pawn, position = pawn.DrawPos, visuals = visuals,

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Verse;
 using UnityEngine;
 
@@ -31,15 +30,15 @@ namespace Bernael_Xenotype
         {
             startedTick = Find.TickManager.TicksGame;
             Pawn.Map?.GetComponent<FoldVisualMapComponent>().CancelExit(Pawn);
-
-            WorldComponent_FoldShiftVisual.Add(Pawn);
+            WorldComponent_FoldShiftVisual.Register(Pawn, this);
         }
 
         public override void CompPostPostRemoved()
         {
             // Traverse the Fold adds a second shadow hediff on top of Fold Shift, and the two end in the same tick.
-            // While one remains it inherits this shadow, so only the last plays the exit, with captures that are
-            // already made; ending twice used to show the pawn for a few frames, then a freshly captured shadow.
+            // While one remains it inherits this shadow, so only the last plays the exit,
+            // with captures that are already made;
+            // ending twice used to show the pawn for a few frames, then a freshly captured shadow.
             HediffComp_FoldShiftVisual next = Pawn.Dead ? null : Remaining();
             if (next != null)
             {
@@ -55,33 +54,14 @@ namespace Bernael_Xenotype
                 Pawn.Map.GetComponent<FoldVisualMapComponent>().EndShift(Pawn, visuals);
             else visuals?.Dispose();
             visuals = null;
-
-            bool hasOtherComp = false;
-            if (Pawn.health?.hediffSet?.hediffs != null)
-            {
-                foreach (var hediff in Pawn.health.hediffSet.hediffs)
-                {
-                    if (hediff != parent && hediff.TryGetComp<HediffComp_FoldShiftVisual>() != null)
-                    {
-                        hasOtherComp = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasOtherComp)
-            {
-                WorldComponent_FoldShiftVisual.Remove(Pawn);
-            }
+            WorldComponent_FoldShiftVisual.Unregister(Pawn, this);
         }
 
         private HediffComp_FoldShiftVisual Remaining()
         {
-            List<Hediff> hediffs = Pawn.health?.hediffSet?.hediffs;
-            if (hediffs == null) return null;
-            foreach (Hediff hediff in hediffs)
-                if (hediff != parent && hediff is HediffWithComps withComps && withComps.comps != null)
-                    foreach (HediffComp comp in withComps.comps)
-                        if (comp is HediffComp_FoldShiftVisual visual) return visual;
+            if (WorldComponent_FoldShiftVisual.TryGet(Pawn, out var comps))
+                for (int i = 0; i < comps.Count; i++)
+                    if (comps[i] != this) return comps[i];
             return null;
         }
 

@@ -11,14 +11,15 @@ namespace Bernael_Xenotype
         public static void Begin(Pawn caster, Pawn victim, Ability ability)
         {
             if (!CanBegin(caster, victim)) return;
-            caster.Map.GetComponent<SoulDrainMapComponent>().Begin(caster, victim, ability);
+            caster.Map.GetComponent<SoulDrainMapComponent>().Begin(
+                caster, victim, ability);
         }
 
         public static void BeginFeeding(Pawn caster, Pawn victim, int remainingTicks)
         {
             if (!CanBegin(caster, victim)) return;
-            caster.Map.GetComponent<SoulDrainMapComponent>().Begin(caster, victim, null,
-                remainingTicks, prisonerFeeding: true);
+            caster.Map.GetComponent<SoulDrainMapComponent>().Begin(
+                caster, victim, null, remainingTicks, prisonerFeeding: true);
         }
 
         private static bool CanBegin(Pawn caster, Pawn victim)
@@ -43,8 +44,9 @@ namespace Bernael_Xenotype
 
         private static bool CanShow(Pawn caster, Pawn victim)
         {
-            return caster != null && victim != null && caster != victim && caster.Spawned &&
-                victim.Spawned && caster.Map == victim.Map && !caster.Dead && !victim.Dead;
+            return caster != null && victim != null &&
+                caster != victim && caster.Spawned && victim.Spawned &&
+                caster.Map == victim.Map && !caster.Dead && !victim.Dead;
         }
     }
 
@@ -89,8 +91,8 @@ namespace Bernael_Xenotype
                 link.committed = true;
                 return;
             }
-            // Instant/scripted drains have no channel to finish. Do not replay an
-            // extraction after damage and pallor have already been applied.
+            // Instant/scripted drains have no channel to finish.
+            // Do not replay an extraction after damage and pallor have already been applied.
         }
 
         public override void MapComponentTick()

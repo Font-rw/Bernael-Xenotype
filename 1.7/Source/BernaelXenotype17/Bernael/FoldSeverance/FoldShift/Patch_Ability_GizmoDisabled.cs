@@ -1,6 +1,7 @@
-using HarmonyLib;
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
+using HarmonyLib;
 
 namespace Bernael_Xenotype
 {
@@ -8,13 +9,12 @@ namespace Bernael_Xenotype
     public static class Patch_Ability_GizmoDisabled
     {
         [HarmonyPatch(nameof(Ability.GizmoDisabled))]
-        [HarmonyPostfix]
         public static void Postfix(Ability __instance, ref bool __result, ref string reason)
         {
             if (__result) return;
 
             Pawn pawn = __instance.pawn;
-            if (WorldComponent_FoldShiftVisual.Contains(pawn))
+            if (WorldComponent_FoldShiftVisual.TryGet(pawn, out List<HediffComp_FoldShiftVisual> comps))
             {
                 string defName = __instance.def.defName;
                 if (defName != "BX_FoldShift" && 
@@ -43,15 +43,11 @@ namespace Bernael_Xenotype
             public static bool Prefix(object __instance, ref string reason, ref bool __result)
             {
                 var pawnField = __instance.GetType().GetField("pawn");
-                var defField = __instance.GetType().GetField("def");
-
-                Pawn pawn = pawnField?.GetValue(__instance) as Pawn;
-                var abilityDef = defField?.GetValue(__instance);
-
+                var abilityDef = __instance.GetType().GetField("def")?.GetValue(__instance);
                 string defName = abilityDef?.GetType().GetField("defName")?.GetValue(abilityDef) as string;
-                if (pawn != null && !string.IsNullOrEmpty(defName))
+                if (pawnField?.GetValue(__instance) is Pawn pawn && !string.IsNullOrEmpty(defName))
                 {
-                    if (WorldComponent_FoldShiftVisual.Contains(pawn))
+                    if (WorldComponent_FoldShiftVisual.TryGet(pawn, out List<HediffComp_FoldShiftVisual> comps))
                     {
                         if (defName != "BX_FoldShift" && 
                             defName != "BX_TraverseTheFold" &&

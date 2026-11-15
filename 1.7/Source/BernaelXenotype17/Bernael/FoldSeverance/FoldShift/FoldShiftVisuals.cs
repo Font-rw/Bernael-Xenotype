@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace Bernael_Xenotype
 {
-    // The Fold Shift shadow, drawn with BX_FoldShift from a capture of the pawn per facing. Like Dark Mirage, each
-    // capture gets a silhouette distance field (worked out on a worker thread) and eye anchors.
+    // The Fold Shift shadow, drawn with BX_FoldShift from a capture of the pawn per facing.
+    // Like Dark Mirage, each capture gets a silhouette distance field (worked out on a worker thread) and eye anchors.
     [StaticConstructorOnStartup]
     public sealed class FoldShiftVisuals : IDisposable
     {
@@ -47,8 +47,8 @@ namespace Bernael_Xenotype
             public int usableFrame;
         }
 
-        // A capture that covers the whole canvas (or nothing at all) was not rendered properly; it is retaken this
-        // many times before being used anyway.
+        // A capture that covers the whole canvas (or nothing at all) was not rendered properly;
+        // it is retaken this many times before being used anyway.
         private const int CaptureRetries = 2;
         private readonly int[] retries = new int[4];
 

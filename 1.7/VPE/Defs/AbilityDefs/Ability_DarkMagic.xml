@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- VPE level-2 psycast; the dedicated dev action grants it immediately. -->
+
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>BX_DarkMirage</defName>
+    <label>dark mirage</label>
+    <description>TODO.</description>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
+    <iconPath>UI/Icons/Genes/BX_Hexmaster</iconPath>
+    <cooldownTime>900</cooldownTime>
+    <warmupSound>BX_Cast1</warmupSound>
+		<castTime>72</castTime> <!-- tick -->
+		<range>19.9</range>
+    <radius>2.4</radius>
+    <targetingParameters>
+      <canTargetLocations>true</canTargetLocations>
+      <canTargetPawns>false</canTargetPawns>
+      <canTargetBuildings>false</canTargetBuildings>
+      <canTargetSelf>false</canTargetSelf>
+    </targetingParameters>
+    <modExtensions>
+			<li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+				<path>BX_Hexes</path>
+				<level>2</level>
+				<order>1</order>
+				<psyfocusCost>0.04</psyfocusCost>
+				<entropyGain>12</entropyGain>
+			</li>
+      <li Class="Bernael_Xenotype.AbilityExtension_DarkMirage">
+        <mirageDef>BX_DarkMirageDecoy</mirageDef>
+      </li>
+    </modExtensions>
+  </VEF.Abilities.AbilityDef>
+
+  <!-- VPE level-3 psycast; the dedicated dev actions grant them immediately. -->
+
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>BX_MaliciousSeal</defName>
+    <label>malicious seal</label>
+    <description>Brand an ancient seal of malice on the target's mind for 30 seconds. Every second its daggers pierce the skull at its heart.\n\nA sealed creature cannot cast psycasts or use any other ability, and a cast it is preparing is broken. It suffers constant pain and takes 50% more damage from cursed flame. If it dies before the brand fades, the seal leaps from its corpse to up to three hostile minds nearby.\n\nTargets without psychic sensitivity cannot be sealed.</description>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
+    <iconPath>UI/Icons/Abilities/BX_MaliciousSeal</iconPath>
+    <cooldownTime>1800</cooldownTime>
+    <warmupSound>BX_Cast1</warmupSound>
+		<castTime>72</castTime> <!-- tick -->
+		<range>24.9</range>
+    <targetingParameters>
+      <canTargetPawns>true</canTargetPawns>
+      <canTargetAnimals>true</canTargetAnimals>
+      <canTargetLocations>false</canTargetLocations>
+      <canTargetBuildings>false</canTargetBuildings>
+      <canTargetSelf>false</canTargetSelf>
+    </targetingParameters>
+    <modExtensions>
+			<li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+				<path>BX_Hexes</path>
+				<level>3</level>
+				<order>1</order>
+				<psyfocusCost>0.03</psyfocusCost>
+				<entropyGain>32</entropyGain>
+				<prerequisites>
+					<li>BX_DarkMirage</li>
+				</prerequisites>
+			</li>
+			<li Class="Bernael_Xenotype.AbilityExtension_MaliciousSeal">
+        <brandSound>PsycastPsychicPulse</brandSound>
+			</li>
+    </modExtensions>
+  </VEF.Abilities.AbilityDef>
+
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>BX_DireOrb</defName>
+    <label>dire orb</label>
+    <description>Fire a heavy orb of darkness wreathed in cursed flame at a location. The orb collapses on impact and bursts in a wave of pale fire that batters nearby hostiles and leaves them staggering. The blast is weaker toward its edge and does not pass through walls.\n\nCursed flames linger on dry, unobstructed ground, burning standing enemies that enter them. Their damage is increased by Malicious seal. Downed creatures are spared. A standing ally is affected only if struck directly by the orb.\n\nA shield that intercepts the orb swallows both the blast and its lingering fire.</description>
+    <abilityClass>VEF.Abilities.Ability_ShootProjectile</abilityClass>
+    <iconPath>UI/Icons/Abilities/BX_DireOrb</iconPath>
+    <cooldownTime>1200</cooldownTime>
+    <warmupSound>BX_Cast1</warmupSound>
+		<castTime>60</castTime> <!-- tick -->
+		<range>24.9</range>
+    <radius>2.6</radius>
+    <targetingParameters>
+      <canTargetLocations>true</canTargetLocations>
+      <canTargetPawns>false</canTargetPawns>
+      <canTargetBuildings>false</canTargetBuildings>
+      <canTargetSelf>false</canTargetSelf>
+    </targetingParameters>
+    <modExtensions>
+			<li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+				<path>BX_Hexes</path>
+				<level>3</level>
+				<order>2</order>
+				<psyfocusCost>0.03</psyfocusCost>
+				<entropyGain>35</entropyGain>
+				<prerequisites>
+					<li>BX_DarkMirage</li>
+				</prerequisites>
+			</li>
+      <li Class="VEF.Abilities.AbilityExtension_Projectile">
+        <projectile>BX_DireOrbProjectile</projectile>
+      </li>
+    </modExtensions>
+  </VEF.Abilities.AbilityDef>
+
+</Defs>

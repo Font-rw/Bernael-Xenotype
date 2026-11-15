@@ -16,10 +16,10 @@ namespace Bernael_Xenotype
     }
 
     [HarmonyPatch(typeof(Hediff_Psylink), nameof(Hediff_Psylink.TryGiveAbilityOfLevel))]
-    public static class Patch_Hediff_Psylink_TryGiveAbilityOfLevel_Transpiler
+    public static class Patch_Hediff_Psylink_TryGiveAbilityOfLevel
     {
         private static readonly MethodInfo FilterCandidatesMethod = AccessTools.Method(
-            typeof(Patch_Hediff_Psylink_TryGiveAbilityOfLevel_Transpiler),
+            typeof(Patch_Hediff_Psylink_TryGiveAbilityOfLevel),
             nameof(FilterCandidatesWithGeneCheck)
         );
 
@@ -36,7 +36,6 @@ namespace Bernael_Xenotype
             for (int i = 0; i < codes.Count; i++)
             {
                 yield return codes[i];
-
                 if (!patched && codes[i].opcode == OpCodes.Call && codes[i].operand is MethodInfo method && method.Name == "Where")
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
@@ -59,14 +58,11 @@ namespace Bernael_Xenotype
         public static IEnumerable<AbilityDef> FilterCandidatesWithGeneCheck(IEnumerable<AbilityDef> originalCandidates, Pawn pawn)
         {
             if (originalCandidates == null) yield break;
-
             List<AbilityDef> validPool = new List<AbilityDef>();
-
             foreach (AbilityDef def in originalCandidates)
             {
                 var ext = def.GetModExtension<PsycastGeneRequirementExtension>();
                 bool needsHexmaster = ext != null && ext.requireHexmaster;
-
                 if (needsHexmaster)
                 {
                     bool hasGene = pawn?.genes != null && pawn.genes.HasActiveGene(BernaelDefOf.BX_Hexmaster);

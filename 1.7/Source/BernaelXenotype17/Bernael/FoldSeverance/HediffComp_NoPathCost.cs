@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Verse;
 
 namespace Bernael_Xenotype
@@ -25,22 +26,21 @@ namespace Bernael_Xenotype
 
         public override void CompPostPostRemoved()
         {
-            bool hasOtherComp = false;
-            if (Pawn.health?.hediffSet?.hediffs != null)
-            {
-                foreach (var hediff in Pawn.health.hediffSet.hediffs)
-                {
-                    if (hediff != parent && hediff.TryGetComp<HediffComp_NoPathCost>() != null)
-                    {
-                        hasOtherComp = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasOtherComp)
+            if (Remaining() == null)
             {
                 WorldComponent_NoPathCost.Remove(Pawn);
             }
+        }
+
+        private HediffComp_NoPathCost Remaining()
+        {
+            List<Hediff> hediffs = Pawn.health?.hediffSet?.hediffs;
+            if (hediffs == null) return null;
+            for (int i = 0; i < hediffs.Count; i++)
+                if (hediffs[i] != parent && hediffs[i] is HediffWithComps withComps && withComps.comps != null)
+                    for (int j = 0; j < withComps.comps.Count; j++)
+                        if (withComps.comps[j] is HediffComp_NoPathCost comp) return comp;
+            return null;
         }
     }
 }

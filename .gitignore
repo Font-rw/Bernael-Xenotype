@@ -20,6 +20,7 @@
 !/1.7/Shaders/
 !/1.7/Source/
 !/1.7/Textures/
+!/1.7/VPE/
 /1.7/Assemblies/*
 !/1.7/Assemblies/BernaelSoul.dll
 !/1.7/Assemblies/BernaelVanquish.dll
@@ -28,6 +29,7 @@
 !/1.7/Source/BernaelSoul/
 !/1.7/Source/BernaelVanquish/
 !/1.7/Source/BernaelXenotype17/
+!/1.7/Source/VPE/
 !/1.7/Source/BernaelXenotype.slnx
 
 # Keep only gameplay scenarios in the test tree
@@ -106,6 +108,7 @@ project.assets.json
 !/1.7/Assemblies/BernaelSoul.dll
 !/1.7/Assemblies/BernaelVanquish.dll
 !/1.7/Assemblies/BernaelXenotype.dll
+!/1.7/VPE/Assemblies/BernaelXenotype.VPE.dll
 !/Common/Textures/Effects/Piloto/SOURCES.json
 
 # Operating-system files
