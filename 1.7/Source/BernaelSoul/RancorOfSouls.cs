@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -82,13 +81,14 @@ namespace Bernael_Xenotype
                 reason = "BX_RancorRequiresSoul".Translate(parent.pawn);
                 return false;
             }
-
+            // Bypassed target check to allow casting without an active target.
+            /*
             if (!HasTarget(useTargetCache))
             {
                 reason = "BX_RancorNoTargets".Translate();
                 return false;
             }
-
+            */
             reason = null;
             return true;
         }
@@ -115,25 +115,33 @@ namespace Bernael_Xenotype
 
             int projectileCount = ProjectileCount(resource);
             List<Pawn> targets = GatherTargets();
+            // Bypassed zero-target check to allow ability execution without active targets.
+            /*
             if (projectileCount < 1 || targets.Count == 0)
             {
                 parent.ResetCooldown();
                 return;
             }
-
+            */
             resource.Value = 0f;
             MapComponent_RancorVolley volleyComponent = parent.pawn.Map?.GetComponent<MapComponent_RancorVolley>();
             if (volleyComponent != null)
             {
+                // Use a directional fallback position in front of the caster if no valid targets exist.
+                IntVec3 fallback = targets.Count > 0 ? targets[0].Position : parent.pawn.Position + parent.pawn.Rotation.FacingCell * 5;
                 volleyComponent.QueueVolley(parent.pawn, Props.projectileDef, projectileCount,
-                    Props.searchRadius, Props.ticksBetweenProjectiles, targets[0].Position);
+                    Props.searchRadius, Props.ticksBetweenProjectiles, fallback);
             }
             else
             {
                 for (int index = 0; index < projectileCount; index++)
                 {
+                    // Calculate a direct fallback cell for non-volley launching when targets are missing.
+                    LocalTargetInfo targetInfo = targets.Count > 0 
+                        ? new LocalTargetInfo(targets[index % targets.Count]) 
+                        : new LocalTargetInfo(parent.pawn.Position + parent.pawn.Rotation.FacingCell * 10);
                     LaunchProjectile(parent.pawn, Props.projectileDef,
-                        new LocalTargetInfo(targets[index % targets.Count]));
+                        targetInfo);
                 }
             }
 
@@ -341,7 +349,7 @@ namespace Bernael_Xenotype
                     tmpTargets.Clear();
                     GatherTargets(volley.caster, volley.searchRadius, tmpTargets);
                     int count = volley.shotsRemaining;
-                    int[] assigned = new int[tmpTargets.Count];
+                    int[] assigned = new int[Mathf.Max(1, tmpTargets.Count)];
                     int seed = unchecked(volley.caster.thingIDNumber * 397 ^ volley.nextLaunchTick);
                     float spacing = 360f / count;
                     float scatter = Mathf.Min(12f, spacing * 0.38f);
@@ -350,7 +358,18 @@ namespace Bernael_Xenotype
                         // Jitter within each sector: keep coverage all around the caster without a regular ring.
                         float angle = volley.burstAngle + spacing * shot +
                             (RancorVariation.Value(unchecked(seed + shot), 4) * 2f - 1f) * scatter;
-                        LocalTargetInfo target = BurstTarget(volley, angle, assigned);
+                        LocalTargetInfo target;
+                        if (tmpTargets.Count > 0)
+                        {
+                            target = BurstTarget(volley, angle, assigned);
+                        }
+                        else
+                        {
+                            // Fallback outer-ring cell calculation when no enemies are in range.
+                            Vector3 dir = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
+                            IntVec3 targetCell = (volley.burstCenter + dir * volley.searchRadius).ToIntVec3();
+                            target = new LocalTargetInfo(targetCell);
+                        }
                         CompAbilityEffect_RancorOfSouls.LaunchProjectile(volley.caster, volley.projectileDef,
                             target, volley.burstCenter, angle);
                     }

@@ -23,7 +23,7 @@ namespace Bernael_Xenotype
         {
             Scribe_Values.Look(ref startedTick, "foldVisualStarted", -1);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
-                WorldComponent_FoldShiftVisual.Add(Pawn);
+                WorldComponent_FoldShiftVisual.Register(Pawn, this);
         }
 
         public override void CompPostPostAdd(DamageInfo? dinfo)

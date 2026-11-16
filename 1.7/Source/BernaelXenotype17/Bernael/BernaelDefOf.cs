@@ -44,6 +44,8 @@ namespace Bernael_Xenotype
         public static ThoughtDef BX_FedOn;
         public static ThoughtDef BX_FedOn_Social;
 
+        public static MentalStateDef BX_Terror;
+
         public static HistoryEventDef BX_ExtractedSoul;
 
         public static StatDef BX_SoulGainFactor;

@@ -65,7 +65,7 @@
 		</statBases>
 		<verbProperties>
 			<verbClass>Verb_CastAbility</verbClass>
-			<range>29.5</range>
+			<range>12</range>
 			<warmupTime>1</warmupTime>
 			<requireLineOfSight>false</requireLineOfSight>
 			<soundCast>BX_Lantern_Cast</soundCast>
@@ -78,7 +78,7 @@
 				<projectileDef>BX_SoulProj</projectileDef>
 				<resourcePerProjectile>0.05</resourcePerProjectile>
 				<maximumProjectiles>20</maximumProjectiles>
-				<searchRadius>29.5</searchRadius>
+				<searchRadius>12</searchRadius>
 				<ticksBetweenProjectiles>2</ticksBetweenProjectiles>
 			</li>
 		</comps>

@@ -22,10 +22,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="BernaelXenotype">
-      <HintPath>..\..\Assemblies\BernaelXenotype.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <ProjectReference Include="..\BernaelXenotype17\BernaelXenotype17.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <Reference Include="VEF">
       <HintPath>$(SteamPath)\workshop\content\294100\2023507013\1.7\Assemblies\VEF.dll</HintPath>
       <Private>False</Private>
