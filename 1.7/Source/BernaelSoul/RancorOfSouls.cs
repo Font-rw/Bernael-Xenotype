@@ -502,6 +502,15 @@ namespace Bernael_Xenotype
             float bestScore = float.MaxValue;
             for (int i = 0; i < tmpTargets.Count; i++)
             {
+                // Check if the target is roughly facing the soul's initial outward trajectory.
+                Vector3 toTarget = (tmpTargets[i].DrawPos - volley.burstCenter).Yto0();
+                float dot = Vector3.Dot(outward, toTarget.normalized);
+                // Strictly ignore targets that are behind the soul's initial travel direction
+                // (dot < 0 means angle > 90 degrees).
+                // 0.707f for ~45 degrees, 0.866f for ~30 degrees.
+                // Souls outside this front cone will ignore the target and fly straight.
+                // if (dot < 0f) continue;
+                if (dot < 0.866f) continue;
                 float score = BurstTargetScore(tmpTargets[i], release, outward);
                 if (score < bestScore)
                 {
@@ -509,8 +518,13 @@ namespace Bernael_Xenotype
                     best = i;
                 }
             }
-            if (best < 0) return new LocalTargetInfo(volley.fallbackTargetCell);
-
+            // If no suitable targets are found within the valid angle/sector, fallback to straight line.
+            if (best < 0)
+            {
+                Vector3 dir = outward;
+                IntVec3 targetCell = (volley.burstCenter + dir * volley.searchRadius).ToIntVec3();
+                return new LocalTargetInfo(targetCell);
+            }
             // Share the volley among clustered enemies without pulling souls away from their release sector.
             Vector3 sector = (tmpTargets[best].DrawPos - volley.burstCenter).Yto0().normalized;
             bestScore += assigned[best] * 0.8f;

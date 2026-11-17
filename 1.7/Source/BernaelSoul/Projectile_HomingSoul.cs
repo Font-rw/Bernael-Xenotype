@@ -27,8 +27,8 @@ namespace Bernael_Xenotype
             rancorSoul = true;
             rancorOutward = true;
             rancorContinuous = true;
-            rancorSpeedFactor = Mathf.Lerp(0.82f, 1.22f, RancorVariation.Value(thingIDNumber, 1));
-            rancorTurnRadius = Mathf.Lerp(1.1f, 1.8f, RancorVariation.Value(thingIDNumber, 2));
+            rancorSpeedFactor = Mathf.Lerp(0.8f, 1.0f, RancorVariation.Value(thingIDNumber, 1));
+            rancorTurnRadius = Mathf.Lerp(1.0f, 1.75f, RancorVariation.Value(thingIDNumber, 2));
             rancorLaunchTick = Find.TickManager.TicksGame;
             Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
             Vector3 start = ExactPosition;
