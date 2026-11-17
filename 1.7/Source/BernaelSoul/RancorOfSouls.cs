@@ -349,6 +349,16 @@ namespace Bernael_Xenotype
                     tmpTargets.Clear();
                     GatherTargets(volley.caster, volley.searchRadius, tmpTargets);
                     int count = volley.shotsRemaining;
+                    // If there are valid targets, anchor the burst angle 
+                    // directly towards the closest enemy so the volley is always focused forward.
+                    if (tmpTargets.Count > 0)
+                    {
+                        Vector3 toClosest = (tmpTargets[0].DrawPos - volley.caster.DrawPos).Yto0();
+                        if (toClosest.sqrMagnitude > 0.0001f)
+                        {
+                            volley.burstAngle = Mathf.Atan2(toClosest.z, toClosest.x) * Mathf.Rad2Deg;
+                        }
+                    }
                     int[] assigned = new int[Mathf.Max(1, tmpTargets.Count)];
                     int seed = unchecked(volley.caster.thingIDNumber * 397 ^ volley.nextLaunchTick);
                     float spacing = 360f / count;
@@ -375,13 +385,6 @@ namespace Bernael_Xenotype
                     }
                     volley.shotsRemaining = 0;
                     continue;
-                }
-
-                // Finish volleys already in progress in saves made before the radial burst update.
-                LaunchNext(volley);
-                if (volley.shotsRemaining <= 0)
-                {
-                    volleys.RemoveAt(index);
                 }
             }
         }
