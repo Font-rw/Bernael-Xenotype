@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>BX_Terror</defName>
+    <label>terror</label>
+    <stateClass>MentalState_Terror</stateClass>
+    <category>Misc</category>
+    <nameColor>(0.65, 0.9, 0.93)</nameColor>
+    <beginLetterLabel>fleeing in terror</beginLetterLabel>
+    <beginLetter>{0} is fleeing in terror.</beginLetter>
+    <recoveryMessage>{0} is no longer fleeing in terror.</recoveryMessage>
+    <baseInspectLine>Mental state: Fleeing in terror</baseInspectLine>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <minTicksBeforeRecovery>240</minTicksBeforeRecovery> 
+    <maxTicksBeforeRecovery>600</maxTicksBeforeRecovery>
+  </MentalStateDef>
+
   <MentalBreakDef>
     <defName>BX_SoulFeedingFrenzy</defName>
     <label>soul feeding frenzy</label>
@@ -21,4 +37,5 @@
     <minTicksBeforeRecovery>5000</minTicksBeforeRecovery>
     <maxTicksBeforeRecovery>10000</maxTicksBeforeRecovery>
   </MentalStateDef>
+
 </Defs>

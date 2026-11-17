@@ -27,8 +27,8 @@ namespace Bernael_Xenotype
             rancorSoul = true;
             rancorOutward = true;
             rancorContinuous = true;
-            rancorSpeedFactor = Mathf.Lerp(0.82f, 1.22f, RancorVariation.Value(thingIDNumber, 1));
-            rancorTurnRadius = Mathf.Lerp(1.1f, 1.8f, RancorVariation.Value(thingIDNumber, 2));
+            rancorSpeedFactor = Mathf.Lerp(0.8f, 1.0f, RancorVariation.Value(thingIDNumber, 1));
+            rancorTurnRadius = Mathf.Lerp(1.0f, 1.75f, RancorVariation.Value(thingIDNumber, 2));
             rancorLaunchTick = Find.TickManager.TicksGame;
             Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
             Vector3 start = ExactPosition;
@@ -306,14 +306,20 @@ namespace Bernael_Xenotype
             if (canRetarget && TargetNeedsReplacement(target))
             {
                 if (TryRetarget(target, at)) target = intendedTarget.Pawn;
-                else CommitRancorAim();
+                else
+                {
+                    // Clear target reference when retargeting fails
+                    // so fallback aim logic can distinguish lost targets from untargeted casts.
+                    CommitRancorAim();
+                    target = null;
+                }
             }
-            if (intendedTarget.HasThing)
-            {
-                if (target != null && !target.Dead && target.Spawned && target.Map == Map && WithinTrackingRange(target))
-                    rancorAim = target.DrawPos + missOffset;
-                else CommitRancorAim();
-            }
+            if (target != null && !target.Dead && target.Spawned && target.Map == Map && WithinTrackingRange(target))
+                rancorAim = target.DrawPos + missOffset;
+            // Only commit aim if a tracked entity was lost;
+            // untargeted cell shots keep their initial radial destination.
+            else if (intendedTarget.HasThing && target == null)
+                CommitRancorAim();
 
             Vector3 toward = (rancorAim - at).Yto0();
             float distance = toward.magnitude;
@@ -377,6 +383,22 @@ namespace Bernael_Xenotype
             // Each released soul ends in a small burst where it lands, as in the Requiem reference.
             if (rancorSoul && Map != null)
                 Map.GetComponent<MapComponent_RancorVolley>()?.Notify_SoulImpact(ExactPosition, thingIDNumber);
+            // Apply custom BX_Terror mental state.
+            if (hitThing is Pawn hitPawn && !hitPawn.Dead && !hitPawn.Downed)
+            {
+                Pawn casterPawn = launcher as Pawn;
+                if (hitPawn.mindState.mentalStateHandler.TryStartMentalState(
+                    BernaelDefOf.BX_Terror,
+                    reason: null,
+                    forced: true,
+                    forceWake: true,
+                    causedByMood: false,
+                    otherPawn: casterPawn,
+                    transitionSilently: false,
+                    causedByDamage: false
+                ))
+                    hitPawn.mindState.mentalStateHandler.CurState.sourceFaction = casterPawn.Faction;
+            }
             base.Impact(hitThing, blockedByShield);
         }
 
@@ -407,8 +429,8 @@ namespace Bernael_Xenotype
                     float reach = Mathf.Min(2.6f, toward.magnitude * 0.65f);
                     toward = toward.normalized;
                     Vector3 end = at + toward * reach;
-                    // Short first handle: the turn starts at the drift's slow speed. Long last handle: it ends at
-                    // about the homing speed (3 * handle / TurnTicks cells per tick).
+                    // Short first handle: the turn starts at the drift's slow speed.
+                    // Long last handle: it ends at about the homing speed (3 * handle / TurnTicks cells per tick).
                     turnControlA = at + outgoing * Mathf.Min(0.5f, reach * 0.3f);
                     turnControlB = end - toward * Mathf.Min(1.33f, reach * 0.55f);
                     turnControlA.x = Mathf.Clamp(turnControlA.x, 0.05f, Map.Size.x - 0.05f);

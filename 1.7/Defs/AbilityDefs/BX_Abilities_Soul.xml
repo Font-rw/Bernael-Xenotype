@@ -46,7 +46,10 @@
 	<AbilityDef>
 		<defName>BX_RancorOfSouls</defName>
 		<label>Rancor of Souls</label>
-		<description>Rupture the internal reservoir, purging all stored Soul Saturation as tormented fragments that home in on nearby enemies. One soul projectile is released for every 5% Soul Saturation, up to 20 projectiles at a full reservoir.</description>
+		<description>Rupture the internal reservoir, purging all stored Soul Saturation in a radial burst of tormented fragments.
+Front-facing souls home in on nearby enemies within a tactical cone, while unaligned souls fly straight and dissipate at a distance. Each striking soul inflicts damage and induces absolute terror, causing targets to flee.
+
+One soul projectile is released for every 5% Soul Saturation, up to 20 projectiles at a full reservoir.</description>
 		<abilityClass>Bernael_Xenotype.Ability_RancorOfSouls</abilityClass>
 		<iconPath>UI/Icons/Genes/BX_SoulEater</iconPath>
 		<category>Bernael</category>
@@ -61,11 +64,11 @@
 		<showCastingProgressBar>true</showCastingProgressBar>
 		<warmupStartSound>BX_SoulDrain</warmupStartSound>
 		<statBases>
-			<Ability_EffectRadius>29.5</Ability_EffectRadius>
+			<Ability_EffectRadius>12</Ability_EffectRadius>
 		</statBases>
 		<verbProperties>
 			<verbClass>Verb_CastAbility</verbClass>
-			<range>29.5</range>
+			<range>12</range>
 			<warmupTime>1</warmupTime>
 			<requireLineOfSight>false</requireLineOfSight>
 			<soundCast>BX_Lantern_Cast</soundCast>
@@ -78,7 +81,7 @@
 				<projectileDef>BX_SoulProj</projectileDef>
 				<resourcePerProjectile>0.05</resourcePerProjectile>
 				<maximumProjectiles>20</maximumProjectiles>
-				<searchRadius>29.5</searchRadius>
+				<searchRadius>12</searchRadius>
 				<ticksBetweenProjectiles>2</ticksBetweenProjectiles>
 			</li>
 		</comps>

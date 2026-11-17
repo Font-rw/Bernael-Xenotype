@@ -9,7 +9,7 @@
     <stages>
       <li>
         <label>gaze caligo buff</label>
-        <description>.</description>
+        <description>TODO.</description>
         <baseMoodEffect>10</baseMoodEffect>
       </li>
     </stages>
@@ -24,7 +24,7 @@
     <stages>
       <li>
         <label>gaze caligo debuff</label>
-        <description>.</description>
+        <description>TODO.</description>
         <baseMoodEffect>-10</baseMoodEffect>
       </li>
     </stages>

@@ -8,7 +8,6 @@ namespace Bernael_Xenotype
     [HarmonyPatch(typeof(PawnRenderer), nameof(PawnRenderer.RenderPawnAt))]
     public static class Patch_PawnRenderer_RenderPawnAt
     {
-        private static readonly float BaseEquipmentAltitude = AltitudeLayer.Pawn.AltitudeFor() + 0.05f;
         private static readonly float NorthLayerOffset = PawnRenderUtility.AltitudeForLayer(-10f);
         private static readonly float OtherLayerOffset = PawnRenderUtility.AltitudeForLayer(90f);
 
@@ -31,7 +30,8 @@ namespace Bernael_Xenotype
                 // worn extras are drawn separately by the game and must remain visible.
                 Rot4 facing = rotOverride ?? ___pawn.Rotation;
                 Vector3 equipmentPosition = drawLoc;
-                equipmentPosition.y = BaseEquipmentAltitude + (facing == Rot4.North ? NorthLayerOffset : OtherLayerOffset);
+                equipmentPosition.y = FoldShiftVisuals.ShadowAltitudeAt(drawLoc) +
+                    (facing == Rot4.North ? NorthLayerOffset : OtherLayerOffset);
                 if (traversalOpacity > 0.95f)
                 {
                     PawnRenderUtility.DrawEquipmentAndApparelExtras(

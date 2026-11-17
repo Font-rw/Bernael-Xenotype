@@ -18,6 +18,12 @@
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BernaelXenotype17\BernaelXenotype17.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+
   <!-- Reference assemblies from NuGet, so the build needs no local RimWorld install (CI, any Steam library). -->
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4995-unstable" />
