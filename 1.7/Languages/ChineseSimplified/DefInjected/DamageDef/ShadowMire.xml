@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <BX_ShadowMireFlame.label>影沼诅咒之火</BX_ShadowMireFlame.label>
+  <BX_ShadowMireFlame.deathMessage>{0}被影沼中喷出的诅咒火柱冻死了。</BX_ShadowMireFlame.deathMessage>
+</LanguageData>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <BX_ShadowMire.label>暗影泥沼</BX_ShadowMire.label>
+  <BX_ShadowMire.description>从折叠空间引出一汪幽蓝的油沼。陷入其中的生物移动速度降低 40%，施法者与友军也会受到影响。油面上会成对泛起苍白的涟漪，随后诅咒火柱从涟漪处升起。每根火柱都会冻伤落点及相邻八格内仍在沼中的生物。诅咒之火会附在它们身上，离开影沼后仍会继续燃烧。\n\n影沼覆盖半径 7.37 格内的开阔地面，持续 8 秒。墙壁可以阻挡影沼蔓延。</BX_ShadowMire.description>
+</LanguageData>

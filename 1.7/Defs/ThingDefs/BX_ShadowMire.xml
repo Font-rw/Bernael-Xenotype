@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef Class="Bernael_Xenotype.ShadowMireDef">
+    <defName>BX_ShadowMireField</defName>
+    <label>shadow mire</label>
+    <description>A slick of dark oil drawn from the Fold. Its ripples gather in pairs just before cursed flame breaks the surface.</description>
+    <thingClass>Bernael_Xenotype.ShadowMire</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <drawOffscreen>true</drawOffscreen>
+    <altitudeLayer>Filth</altitudeLayer>
+    <selectable>true</selectable>
+    <useHitPoints>false</useHitPoints>
+    <rotatable>false</rotatable>
+    <passability>Standable</passability>
+    <graphicData>
+      <texPath>UI/Icons/Abilities/BX_ShadowMire</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <radius>7.37</radius>
+    <durationTicks>480</durationTicks>
+    <pillarRadius>1.45</pillarRadius>
+    <pillarDamage>8</pillarDamage>
+    <pillarFireSize>0.1</pillarFireSize>
+    <damageDef>BX_ShadowMireFlame</damageDef>
+    <slowDef>BX_Mired</slowDef>
+  </ThingDef>
+</Defs>

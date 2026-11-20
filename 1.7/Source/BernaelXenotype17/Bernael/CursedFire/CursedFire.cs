@@ -9,16 +9,18 @@ namespace Bernael_Xenotype
     [StaticConstructorOnStartup]
     public class CursedFire : Fire
     {
+        private enum FireSource { Ordinary, DireOrb, ShadowMire }
+
         private int cursedAge;
         private Sustainer sustainer;
-        private bool fromDireOrb;
+        private FireSource source;
         private Faction sourceFaction;
         private Pawn struck;
         private static readonly MaterialPropertyBlock fireProperties = new MaterialPropertyBlock();
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            if (!fromDireOrb || !DarkMagicAssets.Ready())
+            if (source == FireSource.Ordinary || !DarkMagicAssets.Ready())
             {
                 base.DrawAt(drawLoc, flip);
                 return;
@@ -52,7 +54,7 @@ namespace Bernael_Xenotype
 
         public void ConfigureDireOrb(Pawn caster, Faction faction, Pawn directTarget, int growDelayTicks = 0)
         {
-            fromDireOrb = true;
+            source = FireSource.DireOrb;
             instigator = caster;
             sourceFaction = faction;
             struck = directTarget;
@@ -62,7 +64,16 @@ namespace Bernael_Xenotype
         // Visual only: when the burst lit this fire. Loaded and merged fires are already fully grown.
         private int growStartTick = -1;
 
-        private bool CanBurn(Pawn pawn) => !pawn.Dead && (!fromDireOrb || !pawn.Downed);
+        private static bool CanBurn(Pawn pawn, FireSource source)
+        {
+            if (pawn.Dead) return false;
+            return source switch
+            {
+                FireSource.DireOrb => !pawn.Downed,
+                FireSource.ShadowMire => ShadowMire.HasAir(pawn.Position, pawn.Map),
+                _ => true
+            };
+        }
 
         public override string Label
         {
@@ -92,7 +103,13 @@ namespace Bernael_Xenotype
                 if (legacy != null && legacy.Count > 0 && int.TryParse(legacy[legacy.Count - 1].InnerText, out int age))
                     cursedAge = age;
             }
-            Scribe_Values.Look(ref fromDireOrb, "fromDireOrb");
+            Scribe_Values.Look(ref source, "cursedFireSource");
+            if (Scribe.mode == LoadSaveMode.LoadingVars && source == FireSource.Ordinary)
+            {
+                bool fromDireOrb = false;
+                Scribe_Values.Look(ref fromDireOrb, "fromDireOrb");
+                if (fromDireOrb) source = FireSource.DireOrb;
+            }
             Scribe_References.Look(ref sourceFaction, "sourceFaction");
             Scribe_References.Look(ref struck, "struck");
         }
@@ -100,14 +117,20 @@ namespace Bernael_Xenotype
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            if (!respawningAfterLoad && parent == null && Spawned)
-            {
+            if (parent != null)
+                map.events.ThingDespawned += NotifyThingDespawned;
+            else if (!respawningAfterLoad && Spawned)
                 MergeExistingFires(map);
-            }
+        }
+
+        private void NotifyThingDespawned(Thing thing)
+        {
+            if (thing == parent) Destroy();
         }
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
+            if (parent != null) Map.events.ThingDespawned -= NotifyThingDespawned;
             // Sustainers may be shared by nearby fires; remove only this reporter.
             if (sustainer != null)
             {
@@ -126,7 +149,7 @@ namespace Bernael_Xenotype
 
         protected override void TickInterval(int delta)
         {
-            if (fromDireOrb && parent is Pawn burning && !CanBurn(burning))
+            if (parent is Pawn burning && (burning.Map != Map || !CanBurn(burning, source)))
             {
                 Destroy(DestroyMode.Vanish);
                 return;
@@ -150,13 +173,8 @@ namespace Bernael_Xenotype
             if (parent == null && Spawned)
             {
                 Pawn steppingPawn = Map.thingGrid.ThingAt<Pawn>(Position);
-                if (steppingPawn != null && steppingPawn.Spawned && CanBurn(steppingPawn))
-                {
-                    if (CanEverAttachCursedFire(steppingPawn) && !steppingPawn.HasAttachment(def))
-                    {
-                        TryAttachCursedFire(steppingPawn, fireSize, instigator, fromDireOrb, sourceFaction, struck, Position, Map);
-                    }
-                }
+                if (steppingPawn != null)
+                    TryAttach(steppingPawn, fireSize, instigator, source, Position, Map, sourceFaction, struck);
             }
             if (parent != null && this.IsHashIntervalTick(150, delta))
             {
@@ -176,9 +194,9 @@ namespace Bernael_Xenotype
 
         private bool CanMerge(Fire other)
         {
-            if (other is not CursedFire cursed) return !fromDireOrb;
-            if (fromDireOrb != cursed.fromDireOrb) return false;
-            return !fromDireOrb || (instigator == cursed.instigator && sourceFaction == cursed.sourceFaction && struck == cursed.struck);
+            if (other is not CursedFire cursed) return source == FireSource.Ordinary;
+            if (source != cursed.source) return false;
+            return source == FireSource.Ordinary || (instigator == cursed.instigator && sourceFaction == cursed.sourceFaction && struck == cursed.struck);
         }
 
         private void MergeExistingFires(Map map)
@@ -205,29 +223,23 @@ namespace Bernael_Xenotype
             }
         }
 
-        private static bool CanEverAttachCursedFire(Thing t)
-        {
-            if (t.Destroyed)
-            {
-                return false;
-            }
-            if (t.def.category != ThingCategory.Pawn)
-            {
-                return false;
-            }
-            if (t.TryGetComp<CompAttachBase>() == null)
-            {
-                return false;
-            }
-            return true;
-        }
+        internal static void TryAttachFromMire(Pawn pawn, float fireSize, Thing instigator) =>
+            TryAttach(pawn, fireSize, instigator, FireSource.ShadowMire, pawn.Position, pawn.Map);
 
-        public static void TryAttachCursedFire(Thing t, float fireSize, Thing instigator, bool fromDireOrb, Faction sourceFaction, Pawn struck, IntVec3 position, Map map)
+        public static void TryAttachCursedFire(Thing t, float fireSize, Thing instigator, bool fromDireOrb, Faction sourceFaction, Pawn struck, IntVec3 position, Map map) =>
+            TryAttach(t, fireSize, instigator, fromDireOrb ? FireSource.DireOrb : FireSource.Ordinary,
+                position, map, sourceFaction, struck);
+
+        private static void TryAttach(Thing t, float fireSize, Thing instigator, FireSource source,
+            IntVec3 position, Map map, Faction sourceFaction = null, Pawn struck = null)
         {
+            if (t is not Pawn pawn || !pawn.Spawned || pawn.Map != map || !CanBurn(pawn, source) ||
+                !pawn.TryGetComp(out CompAttachBase attachments) || attachments.HasAttachment(BernaelDefOf.BX_CursedFire)) return;
+
             CursedFire pawnFire = (CursedFire)ThingMaker.MakeThing(BernaelDefOf.BX_CursedFire);
             pawnFire.fireSize = fireSize;
             pawnFire.instigator = instigator;
-            pawnFire.fromDireOrb = fromDireOrb;
+            pawnFire.source = source;
             pawnFire.sourceFaction = sourceFaction;
             pawnFire.struck = struck;
             pawnFire.AttachTo(t);
@@ -236,8 +248,8 @@ namespace Bernael_Xenotype
 
         private void DoCursedDamage(Thing target)
         {
-            if (fromDireOrb && (target is not Pawn victim || !CanBurn(victim))) return;
-            DamageDef damage = fromDireOrb ? BernaelDefOf.BX_CursedFlame : DamageDefOf.Frostbite;
+            if (source == FireSource.DireOrb && (target is not Pawn victim || !CanBurn(victim, source))) return;
+            DamageDef damage = source == FireSource.Ordinary ? DamageDefOf.Frostbite : BernaelDefOf.BX_CursedFlame;
             int damageAmount = GenMath.RoundRandom(Mathf.Clamp(0.0125f + 0.0036f * fireSize, 0.0125f, 0.05f) * 150f);
             if (damageAmount < 1)
             {

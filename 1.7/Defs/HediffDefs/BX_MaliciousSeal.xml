@@ -25,6 +25,7 @@
         <painOffset>0.2</painOffset>
         <damageFactors>
           <BX_CursedFlame>1.5</BX_CursedFlame>
+          <BX_ShadowMireFlame>1.5</BX_ShadowMireFlame>
         </damageFactors>
       </li>
     </stages>
