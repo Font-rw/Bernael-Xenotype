@@ -7,7 +7,6 @@
 !/About/
 !/Common/
 !/LoadFolders.xml
-!/Tests/
 
 # Versioned game content and build sources
 /1.7/*
@@ -32,10 +31,12 @@
 !/1.7/Source/VPE/
 !/1.7/Source/BernaelXenotype.slnx
 
-# Keep only gameplay scenarios in the test tree
-/Tests/**/*
-!/Tests/**/
-!/Tests/**/*.rwtest
+# Local test inputs and output
+[Tt]ests/
+[Tt]est[Rr]esults/
+test-results/
+coverage/
+*.rwtest
 
 # Editor settings, build output and caches
 **/.*
@@ -46,6 +47,9 @@
 [Oo]bj/
 node_modules/
 __pycache__/
+[Tt]emp/
+[Tt]mp/
+artifacts/
 .env
 .env.*
 *.local
@@ -98,6 +102,7 @@ project.assets.json
 *.gz
 *.tmp
 *.temp
+*.dmp
 *.log
 *.bak
 *.orig
