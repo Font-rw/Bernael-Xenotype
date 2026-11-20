@@ -99,6 +99,28 @@
     </shaderProgram>
   </ShaderDef>
   <ShaderDef>
+    <defName>BX_ShadowMire</defName>
+    <shaderProgram>
+      <vertexShaderFileName>Bernael/BX_Effect.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>Bernael/BX_ShadowMire.frag.glsl</fragmentShaderFileName>
+      <flipTextureST>false</flipTextureST>
+      <depthTest>true</depthTest><depthWrite>false</depthWrite><cullMode>None</cullMode>
+      <blendMode>Custom</blendMode><blendSrcFactor>One</blendSrcFactor><blendDstFactor>OneMinusSrcAlpha</blendDstFactor>
+      <renderQueue>3020</renderQueue>
+    </shaderProgram>
+  </ShaderDef>
+  <ShaderDef>
+    <defName>BX_ShadowMirePillar</defName>
+    <shaderProgram>
+      <vertexShaderFileName>Bernael/BX_Effect.vert.glsl</vertexShaderFileName>
+      <fragmentShaderFileName>Bernael/BX_ShadowMirePillar.frag.glsl</fragmentShaderFileName>
+      <flipTextureST>false</flipTextureST>
+      <depthTest>true</depthTest><depthWrite>false</depthWrite><cullMode>None</cullMode>
+      <blendMode>Custom</blendMode><blendSrcFactor>One</blendSrcFactor><blendDstFactor>OneMinusSrcAlpha</blendDstFactor>
+      <renderQueue>3151</renderQueue>
+    </shaderProgram>
+  </ShaderDef>
+  <ShaderDef>
     <defName>BX_DireOrb</defName>
     <shaderProgram>
       <vertexShaderFileName>Bernael/BX_Effect.vert.glsl</vertexShaderFileName>

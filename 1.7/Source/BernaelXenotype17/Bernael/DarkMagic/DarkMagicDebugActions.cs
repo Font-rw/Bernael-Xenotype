@@ -14,6 +14,10 @@ namespace Bernael_Xenotype
             actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void GrantDireOrb(Pawn pawn) => Grant(pawn, "BX_DireOrb");
 
+        [DebugAction("Bernael - Dark Magic", "Grant Shadow Mire (click pawn)", requiresRoyalty: true,
+            actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void GrantShadowMire(Pawn pawn) => Grant(pawn, "BX_ShadowMire");
+
         // Sealed on the player's behalf, so it spreads to pawns hostile to the colony.
         [DebugAction("Bernael - Dark Magic", "Apply malicious seal (click pawn)",
             actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]

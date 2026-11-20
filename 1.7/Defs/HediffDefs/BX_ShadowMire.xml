@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef>
+    <defName>BX_Mired</defName>
+    <label>mired in shadow</label>
+    <description>Oil from the Fold clings to this creature, slowing its movement. It drains away moments after the creature leaves the mire.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <defaultLabelColor>(0.51, 0.71, 0.86)</defaultLabelColor>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>30</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors><MoveSpeed>0.6</MoveSpeed></statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

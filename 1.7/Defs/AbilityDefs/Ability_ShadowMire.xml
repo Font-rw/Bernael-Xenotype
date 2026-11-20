@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <AbilityDef MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>BX_ShadowMire</defName>
+    <label>shadow mire</label>
+    <description>Draw a pool of midnight-blue oil from the Fold. Everyone caught in it moves 40% slower, including the caster and their allies. Pairs of pale boils mark where pillars of cursed flame will erupt. Each pillar strikes its own cell and the eight neighboring cells covered by the mire. Creatures hit suffer frostbite and carry the cursed flame with them, even after leaving the pool.\n\nThe mire covers open ground within 7.37 cells for 8 seconds. Walls shelter creatures on the far side.</description>
+    <abilityClass>RimWorld.Psycast</abilityClass>
+    <category>Psychic</category>
+    <level>4</level>
+    <iconPath>UI/Icons/Abilities/BX_ShadowMire</iconPath>
+    <cooldownTicksRange>1800</cooldownTicksRange>
+    <displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>true</disableGizmoWhileUndrafted>
+    <targetRequired>true</targetRequired>
+    <canUseAoeToGetTargets>false</canUseAoeToGetTargets>
+    <warmupSound>BX_Cast1</warmupSound>
+    <statBases>
+      <Ability_PsyfocusCost>0.06</Ability_PsyfocusCost>
+      <Ability_EntropyGain>40</Ability_EntropyGain>
+    </statBases>
+    <verbProperties>
+      <verbClass>RimWorld.Verb_CastPsycast</verbClass>
+      <range>24.9</range>
+      <warmupTime>1.2</warmupTime>
+      <requireLineOfSight>true</requireLineOfSight>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetSelf>false</canTargetSelf>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="Bernael_Xenotype.CompProperties_ShadowMire">
+        <fieldDef>BX_ShadowMireField</fieldDef>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Bernael_Xenotype.PsycastGeneRequirementExtension">
+        <requireHexmaster>true</requireHexmaster>
+      </li>
+    </modExtensions>
+  </AbilityDef>
+</Defs>

@@ -47,4 +47,19 @@
     </additionalHediffs>
   </DamageDef>
 
+  <DamageDef>
+    <defName>BX_ShadowMireFlame</defName>
+    <label>mire flame</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
+    <externalViolence>true</externalViolence>
+    <hasForcefulImpact>false</hasForcefulImpact>
+    <makesBlood>false</makesBlood>
+    <canInterruptJobs>false</canInterruptJobs>
+    <deathMessage>{0} was frozen by a pillar of cursed flame.</deathMessage>
+    <hediff>Frostbite</hediff>
+    <armorCategory>Heat</armorCategory>
+    <combatLogRules>Damage_Flame</combatLogRules>
+    <canUseDeflectMetalEffect>false</canUseDeflectMetalEffect>
+  </DamageDef>
+
 </Defs>
